@@ -8,6 +8,7 @@ import com.example.demo.model.dto.CreateAnimalDto;
 import com.example.demo.model.dto.UpdateAnimalDto;
 import com.example.demo.repository.AnimalRepository;
 import org.hibernate.query.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public List<AnimalDto> findAllPaged(int page) {
-        var animals = animalRepository.findAll((Pageable) Page.page(20, page));
+        var animals = animalRepository.findAll( PageRequest.of(page, 10, Sort.by("name")));
         return animals.get().map(AnimalDto::fromEntity).toList();
     }
 
